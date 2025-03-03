@@ -1,0 +1,15 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    overflow-y: hidden;
+}
+
+.events-label {
+    text-align: center;
+
+    font-size: 1.2rem;
+    color: #ffff;
+}

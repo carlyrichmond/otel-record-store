@@ -1,0 +1,33 @@
+.search-container {
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+}
+
+input {
+    width: 100%;
+    min-width: 40rem;
+
+    height: 100%;
+    min-height: 2rem;
+    padding-left: 2.5rem;
+    border-radius: 1rem;
+    line-height: normal;
+}
+
+input::placeholder {
+    font-family: 'Roboto';
+    font-size: 1.10rem;
+    text-align: center;
+}
+
+.search-icon {
+    position: relative;
+    left: 2rem;
+    color: #7B7B7B !important;
+    cursor: pointer;
+
+    width: 1.5rem;
+    height: auto;
+}

@@ -1,0 +1,105 @@
+@import url("https://fonts.googleapis.com/css2?family=Righteous&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+@plugin '@tailwindcss/forms';
+
+body {
+    margin: 0;
+
+    background-color: #000;
+    background:linear-gradient(0deg, rgba(85, 26, 139, 0.6), rgba(85, 26, 139, 0.75)), url('https://images.unsplash.com/photo-1619983081593-e2ba5b543168?q=80&w=2940&auto=format');
+    
+}
+
+header {
+    background-color: #000;
+    font-family: 'Righteous';
+
+    /* Positioning */
+    display: flex;
+    flex-direction: row; 
+    justify-content: flex-start;
+    height: 6rem;
+}
+
+.company-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+}
+
+ .app-header {
+    color: #ffff;
+    text-decoration: none;
+
+    font-size: 2em;
+}
+
+hr {
+    margin: 0;
+}
+
+nav {
+    background-color: #ffff;
+    height: 2.5rem;
+
+    display: flex;
+    align-items: center;
+}
+
+nav > ul {
+    list-style-type: none;
+    margin: 0.25rem;
+
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    justify-content: center;
+}
+
+ul > li {
+    margin: 0 0.5rem 0 0.5rem;
+}
+
+.nav-bar > a {
+    font-family: 'Baloo 2';
+    text-decoration: none;
+    font-size: 1.1rem;
+    color: #551a8b;
+}
+
+section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    margin-top: 2rem;
+
+    width: 100%;
+    overflow-y: scroll;
+}
+
+footer {
+    background-color: #808080;
+    color: #ffff;
+    height: 3rem;
+    padding: 0.8rem;
+    font-family: 'Roboto';
+    
+    /* Positioning */
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    text-align: center;
+}
+
+.logo {
+    margin-left: 1rem;
+
+    width: 2.5rem;
+    height: auto;
+}
