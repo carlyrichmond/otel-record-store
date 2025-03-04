@@ -1,0 +1,25 @@
+x-default-logging: &logging
+  driver: "json-file"
+  options:
+    max-size: "5m"
+    max-file: "2"
+    tag: "{{.Name}}"
+
+services: 
+  records-ui:
+    image: records-ui:latest
+    container_name: records-ui
+    build:
+      context: ./records-ui
+      dockerfile: Dockerfile
+    ports:
+      - "4173:4173"
+    deploy:
+      resources:
+        limits:
+          memory: 250M
+    restart: unless-stopped
+    environment:
+      - FRONTEND_ADDR
+      - NODE_ENV=production
+    logging: *logging
