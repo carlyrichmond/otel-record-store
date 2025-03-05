@@ -5,7 +5,7 @@ x-default-logging: &logging
     max-file: "2"
     tag: "{{.Name}}"
 
-services: 
+services:
   records-ui:
     image: records-ui:latest
     container_name: records-ui
@@ -13,7 +13,7 @@ services:
       context: ./records-ui
       dockerfile: Dockerfile
     ports:
-      - "4173:4173"
+      - 4173:4173
     deploy:
       resources:
         limits:
@@ -23,3 +23,24 @@ services:
       - FRONTEND_ADDR
       - NODE_ENV=production
     logging: *logging
+
+  records-service:
+    image: records-service:latest
+    container_name: records-service
+    build:
+      context: ./records-service
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      - OTEL_RESOURCE_ATTRIBUTES=service.version=1,deployment.environment=dev
+      - OTEL_SERVICE_NAME=${OTEL_SERVICE_NAME}
+      - OTEL_EXPORTER_OTLP_ENDPOINT=${OTEL_EXPORTER_OTLP_ENDPOINT}
+      - OTEL_EXPORTER_OTLP_HEADERS=${OTEL_EXPORTER_OTLP_HEADERS}
+      - OTEL_TRACES_EXPORTER=otlp
+      - OTEL_METRICS_EXPORTER=otlp
+      - OTEL_LOGS_EXPORTER=otlp
+      - OTEL_INFERRED_SPANS_ENABLED=true
+      - OTEL_INFERRED_SPANS_LOGGING_ENABLED=true
+      #- OTEL_JAVAAGENT_DEBUG=true
+    ports:
+      - 8080:8080

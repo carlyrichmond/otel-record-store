@@ -18,7 +18,7 @@ npm install
 
 ```zsh
 docker-compose build
-docker-compose run
+docker-compose up
 ```
 
 # Attributions
