@@ -66,5 +66,29 @@ public class RecordControllerIntegrationTest {
                 .expectBodyList(MusicRecord.class).hasSize(3);
     }
 
+    @Test
+    void whenGetFeaturedRecords_thenCorrectRecords() {
+
+        ArrayList<MusicRecordFormat> formats = new ArrayList<MusicRecordFormat>();
+        formats.add(MusicRecordFormat.CD);
+        formats.add(MusicRecordFormat.LP);
+
+        ArrayList<MusicRecord> records = new ArrayList<MusicRecord>();
+
+        records.add(new MusicRecord(1, "Hozier", "Hozier", formats));
+        records.add(new MusicRecord(2, "Wasteland, Baby!", "Hozier", formats));
+        records.add(new MusicRecord(3, "Dream your Life Away", "Vance Joy"));
+        records.add(new MusicRecord(4, "This is acting", "Sia"));
+        records.add(new MusicRecord(5, "Every Open Eye", "Chvrches"));
+
+        given(recordRepository.findFeaturedRecords()).willReturn(Flux.fromIterable(records));
+
+        testClient.get()
+                .uri("/records/featured")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBodyList(MusicRecord.class).hasSize(5);
+    }
+
 }
 

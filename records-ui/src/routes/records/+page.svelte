@@ -8,14 +8,9 @@
 	import RecordCard from '../../components/record-card/record-card.svelte';
 	import Spinner from '../../components/spinner/spinner.svelte';
 
-	/**
-	 * @type {boolean}
-	 */
+	
 	let loading: boolean;
 
-	/**
-	 * @param {any} query
-	 */
 	async function getRecords(query: string) {
 		loading = true;
 

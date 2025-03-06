@@ -1,6 +1,5 @@
 <script>
-    import SearchBar from '../components/search-bar/search-bar.svelte';
+    import Featured from '../components/featured/featured.svelte';
 </script>
 
-
-<SearchBar />
+<Featured/>

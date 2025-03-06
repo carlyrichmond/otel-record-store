@@ -1,0 +1,44 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+
+    overflow-y: hidden;
+}
+
+.cards-container {
+    padding: 1rem 2rem;
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: row;
+}
+
+.featured-h2 {
+    color: #ffff;
+    width: 15rem;
+    font-size: 3rem;
+    font-style: 'Righteous';
+}
+
+.records-btn {
+    height: 4rem;
+    width: 13rem;
+    margin: auto;
+
+    border-color: #c5c5c5;
+    background-color: #F68FBE;
+
+    color: #ffff;
+    font-family: 'Roboto';
+    font-size: 1.25rem;
+    text-align: center;
+}
+
+.no-featured-label {
+    text-align: center;
+
+    font-size: 1.2rem;
+    color: #ffff;
+}

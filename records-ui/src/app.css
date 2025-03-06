@@ -9,8 +9,8 @@ body {
     margin: 0;
 
     background-color: #000;
-    background:linear-gradient(0deg, rgba(85, 26, 139, 0.6), rgba(85, 26, 139, 0.75)), url('https://images.unsplash.com/photo-1619983081593-e2ba5b543168?q=80&w=2940&auto=format');
-    
+    background: linear-gradient(0deg, rgba(85, 26, 139, 0.6), rgba(85, 26, 139, 0.75)), url('https://images.unsplash.com/photo-1619983081593-e2ba5b543168?q=80&w=2940&auto=format');
+
 }
 
 header {
@@ -19,7 +19,7 @@ header {
 
     /* Positioning */
     display: flex;
-    flex-direction: row; 
+    flex-direction: row;
     justify-content: flex-start;
     height: 6rem;
 }
@@ -32,7 +32,7 @@ header {
     gap: 1rem;
 }
 
- .app-header {
+.app-header {
     color: #ffff;
     text-decoration: none;
 
@@ -51,7 +51,7 @@ nav {
     align-items: center;
 }
 
-nav > ul {
+nav>ul {
     list-style-type: none;
     margin: 0.25rem;
 
@@ -61,11 +61,11 @@ nav > ul {
     justify-content: center;
 }
 
-ul > li {
+ul>li {
     margin: 0 0.5rem 0 0.5rem;
 }
 
-.nav-bar > a {
+.nav-bar>a {
     font-family: 'Baloo 2';
     text-decoration: none;
     font-size: 1.1rem;
@@ -76,7 +76,7 @@ section {
     display: flex;
     align-items: center;
     justify-content: center;
-    
+
     margin-top: 2rem;
 
     width: 100%;
@@ -89,7 +89,7 @@ footer {
     height: 3rem;
     padding: 0.8rem;
     font-family: 'Roboto';
-    
+
     /* Positioning */
     width: 100%;
     position: fixed;

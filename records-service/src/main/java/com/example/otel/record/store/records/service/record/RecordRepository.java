@@ -74,4 +74,8 @@ public class RecordRepository {
         logger.info("Finding all records in catalog");
         return Flux.fromIterable(RECORD_DATA);
     }
+
+    public Flux<MusicRecord> findFeaturedRecords() {
+        return Flux.fromIterable(RECORD_DATA.subList(5, 10));
+    }
 }

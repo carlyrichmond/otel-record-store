@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import reactor.core.publisher.Flux;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin(origins = {"http://localhost:5173"})
 @RequestMapping("/records")
@@ -59,5 +61,27 @@ public class RecordController {
         //Thread.sleep(10000);
         logger.info(String.format("Getting records that match query: %s", query));
         return recordRepository.findRecordsByQuery(query);
+    }
+
+    @GetMapping("/featured")
+    private Flux<MusicRecord> getFeaturedRecords() throws InterruptedException {
+        Span span = tracer.spanBuilder("GET featured").setSpanKind(SpanKind.SERVER).startSpan();
+        span.setAttribute("http.method", "GET");
+        span.setAttribute("http.url", "/records/featured");
+        span.setAttribute("http.response.status_code", "200");
+
+
+        try (Scope scope = span.makeCurrent()) {
+            logger.info("Waiting...");
+            //Thread.sleep(10000);
+
+            logger.info("Getting featured records");
+            return recordRepository.findFeaturedRecords();
+        } catch(Throwable t) {
+            span.recordException(t);
+            throw t;
+        } finally {
+            span.end();
+        }
     }
 }
