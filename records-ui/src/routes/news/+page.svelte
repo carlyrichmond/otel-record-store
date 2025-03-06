@@ -1,4 +1,4 @@
-<script>
+<script lang=ts>
     import './news.css';
 
     function onSubscribeClick() {

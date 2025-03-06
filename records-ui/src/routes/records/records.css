@@ -8,6 +8,19 @@
     overflow-y: hidden;
 }
 
+.cards-container {
+    padding: 1rem 2rem;
+    margin-bottom: 3rem;
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+p {
+    color: #ffff;
+}
+
 .no-records-label {
     text-align: center;
 

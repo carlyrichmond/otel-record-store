@@ -23,4 +23,6 @@ docker-compose up
 
 # Attributions
 
-1. Vinyl icons created by [Freepik](https://www.flaticon.com/free-icons/vinyl) on Flaticon.
+1. Vinyl icon created by [Freepik](https://www.flaticon.com/free-icons/vinyl) on Flaticon.
+2. Available format SVG icons sourced from [Iconify](https://icon-sets.iconify.design/).
+3. Record album covers sourced via [Rolling Stones: The 100 Best Album Covers of All Time](https://www.rollingstone.com/music/music-lists/best-album-covers-1235035232/)

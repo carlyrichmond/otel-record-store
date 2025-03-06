@@ -11,6 +11,8 @@ public class MusicRecord {
 
     private String artist;
 
+    private String imagePath;
+
     private List<MusicRecordFormat> formats;
 
     MusicRecord() {
@@ -29,6 +31,14 @@ public class MusicRecord {
         this.title = title;
         this.artist = artist;
         this.formats = new ArrayList<MusicRecordFormat>();
+    }
+
+    public MusicRecord(int id, String title, String artist, String imagePath, List<MusicRecordFormat> formats) {
+        this.albumId = id;
+        this.title = title;
+        this.artist = artist;
+        this.imagePath = imagePath;
+        this.formats = formats;
     }
 
     public MusicRecord(int id, String title, String artist, List<MusicRecordFormat> formats) {
@@ -61,6 +71,10 @@ public class MusicRecord {
     public void setArtist(String artist) {
         this.artist = artist;
     }
+
+    public String getImagePath() { return this.imagePath; }
+
+    public void setImagePath(String imagePath) { this.imagePath = imagePath; }
 
     public List<MusicRecordFormat> getFormats() {
         return this.formats;

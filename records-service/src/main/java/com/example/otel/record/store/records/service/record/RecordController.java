@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:4205", "http://localhost:3000"})
+@CrossOrigin(origins = {"http://localhost:5173"})
 @RequestMapping("/records")
 public class RecordController {
 
@@ -41,7 +41,7 @@ public class RecordController {
 
         try (Scope scope = span.makeCurrent()) {
             logger.info("Waiting...");
-            Thread.sleep(10000);
+            //Thread.sleep(10000);
 
             logger.info("Getting all records");
             return recordRepository.findAllRecords();
@@ -56,7 +56,7 @@ public class RecordController {
     @GetMapping("/{query}")
     private Flux<MusicRecord> getRecordByQuery(@PathVariable String query) throws InterruptedException {
         logger.info("Waiting...");
-        Thread.sleep(10000);
+        //Thread.sleep(10000);
         logger.info(String.format("Getting records that match query: %s", query));
         return recordRepository.findRecordsByQuery(query);
     }
