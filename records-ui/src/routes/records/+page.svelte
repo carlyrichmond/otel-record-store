@@ -4,7 +4,9 @@
 
 	import './records.css';
 	import SearchBar from '../../components/search-bar/search-bar.svelte';
+
 	import RecordCard from '../../components/record-card/record-card.svelte';
+	import Spinner from '../../components/spinner/spinner.svelte';
 
 	/**
 	 * @type {boolean}
@@ -14,14 +16,17 @@
 	/**
 	 * @param {any} query
 	 */
-	async function getRecords(query = '') {
+	async function getRecords(query: string) {
 		loading = true;
 
 		try {
-			const response = await fetch(`http://localhost:8080/records/${query}`);
-			data = await response.json();
+			const queryParams: string = query ? `/${query}` : '';
+			const response = await fetch(`http://localhost:8080/records${queryParams}`);
+			const records = await response.json();
+			data = { records: records };
 		} catch (e) {
 			console.error(e);
+			data = { error: '⚠️ Unable to obtain records' };
 		} finally {
 			loading = false;
 		}
@@ -29,7 +34,11 @@
 </script>
 
 <div class="container">
-	<SearchBar {getRecords} />
+	<SearchBar getRecords={getRecords} />
+
+	{#if loading}
+		<Spinner/>
+	{/if}
 
 	<div class="cards-container">
 		{#if data.error}

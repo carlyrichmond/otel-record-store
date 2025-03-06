@@ -7,7 +7,7 @@
 
     let timer: NodeJS.Timeout;
 
-    const searchRecords = (event: KeyboardEvent) => {
+    const searchRecords = (event: any) => {
 		clearTimeout(timer);
 		timer = setTimeout(() => {
 			getRecords(query);
@@ -18,5 +18,5 @@
 <div class="search-container">
     <img src={search} class="search-icon" alt="vinyl record"/>
     <input bind:value={query} type="search" placeholder="Browse our record selection today!" 
-    aria-label="Search record selection" on:keyup={searchRecords}/>
+    aria-label="Search record selection" on:input={searchRecords}/>
   </div>
