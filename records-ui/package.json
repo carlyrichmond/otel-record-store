@@ -30,7 +30,7 @@
 		"@testing-library/svelte": "^5.2.4",
 		"eslint": "^9.18.0",
 		"eslint-config-prettier": "^10.0.1",
-		"eslint-plugin-svelte": "^3.0.0",
+		"eslint-plugin-svelte": "^3.5.1",
 		"globals": "^16.0.0",
 		"jsdom": "^26.0.0",
 		"prettier": "^3.4.2",
@@ -48,6 +48,8 @@
 		"@rollup/rollup-linux-x64-musl": "4.9.5"
 	},
 	"dependencies": {
+		"@opentelemetry/auto-instrumentations-web": "^0.46.0",
+		"@opentelemetry/exporter-trace-otlp-http": "^0.200.0",
 		"@sveltejs/adapter-node": "^5.2.12"
 	}
 }
