@@ -4,7 +4,7 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"dev": "vite dev",
+		"dev": "vite dev --port 4173",
 		"build": "vite build",
 		"preview": "vite preview --host",
 		"prepare": "svelte-kit sync || echo ''",
@@ -48,8 +48,19 @@
 		"@rollup/rollup-linux-x64-musl": "4.9.5"
 	},
 	"dependencies": {
+		"@opentelemetry/auto-instrumentations-node": "^0.57.0",
 		"@opentelemetry/auto-instrumentations-web": "^0.46.0",
+		"@opentelemetry/context-zone": "^2.0.0",
+		"@opentelemetry/exporter-metrics-otlp-proto": "^0.200.0",
 		"@opentelemetry/exporter-trace-otlp-http": "^0.200.0",
-		"@sveltejs/adapter-node": "^5.2.12"
+		"@opentelemetry/exporter-trace-otlp-proto": "^0.200.0",
+		"@opentelemetry/instrumentation-document-load": "^0.45.0",
+		"@opentelemetry/instrumentation-user-interaction": "^0.45.0",
+		"@opentelemetry/resources": "^2.0.0",
+		"@opentelemetry/sdk-node": "^0.200.0",
+		"@opentelemetry/sdk-trace-base": "^2.0.0",
+		"@opentelemetry/sdk-trace-web": "^2.0.0",
+		"@sveltejs/adapter-node": "^5.2.12",
+		"web-vitals": "^4.2.4"
 	}
 }

@@ -9,7 +9,7 @@
 	import Spinner from '../../components/spinner/spinner.svelte';
 
 	
-	let loading: boolean;
+	let loading: boolean = $state(false);
 
 	async function getRecords(query: string) {
 		loading = true;

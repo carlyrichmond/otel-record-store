@@ -1,0 +1,20 @@
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: "0.0.0.0:4318"
+
+exporters:
+  otlp/elastic:
+    endpoint: ${ELASTIC_ENDPOINT}
+    headers:
+      Authorization: "ApiKey ${ELASTIC_API_KEY}"
+
+  debug:
+    verbosity: detailed
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [otlp/elastic, debug] 

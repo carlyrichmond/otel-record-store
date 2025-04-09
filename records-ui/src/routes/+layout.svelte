@@ -2,7 +2,14 @@
 	import '../app.css';
 	import logo from '$lib/assets/vinyl.png';
 
+  import { onMount } from 'svelte';
+	import { ClientTelemetry } from '$lib/telemetry/frontend.tracer';
+
 	let { children } = $props();
+
+  onMount(() => {
+		ClientTelemetry.getInstance().start();
+	});
 </script>
 
 <header>

@@ -6,23 +6,23 @@ x-default-logging: &logging
     tag: "{{.Name}}"
 
 services:
-  records-ui:
-    image: records-ui:latest
-    container_name: records-ui
-    build:
-      context: ./records-ui
-      dockerfile: Dockerfile
-    ports:
-      - 4173:4173
-    deploy:
-      resources:
-        limits:
-          memory: 250M
-    restart: unless-stopped
-    environment:
-      - FRONTEND_ADDR
-      - NODE_ENV=production
-    logging: *logging
+  # records-ui:
+  #   image: records-ui:latest
+  #   container_name: records-ui
+  #   build:
+  #     context: ./records-ui
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 4173:4173
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         memory: 250M
+  #   restart: unless-stopped
+  #   environment:
+  #     - FRONTEND_ADDR
+  #     - NODE_ENV=production
+  #   logging: *logging
 
   records-service:
     image: records-service:latest
@@ -44,3 +44,26 @@ services:
       #- OTEL_JAVAAGENT_DEBUG=true
     ports:
       - 8080:8080
+
+  otel-collector:
+    build:
+      context: ./otel-collector
+    ports:
+      - "4318:4318"
+    env_file:
+      - .env
+    environment:
+      - ELASTIC_ENDPOINT=${ELASTIC_ENDPOINT}
+      - ELASTIC_API_KEY=${ELASTIC_API_KEY}
+    command: ["--config=/etc/otelcol/config.yaml", "--set=service.telemetry.logs.level=debug"]
+
+  nginx:
+    build:
+      context: ./nginx
+    image: nginx:latest
+    ports:
+      - "8123:8123"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - otel-collector
