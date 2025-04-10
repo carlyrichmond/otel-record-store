@@ -8,7 +8,7 @@
 	let { children } = $props();
 
   onMount(() => {
-		ClientTelemetry.getInstance().start();
+		ClientTelemetry.getInstance();
 	});
 </script>
 

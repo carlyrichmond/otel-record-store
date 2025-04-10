@@ -39,7 +39,10 @@ diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
 
 // Define resource metadata for the service, used by exporters (Elastic requires service.name)
 const resource = resourceFromAttributes({
-	[ATTR_SERVICE_NAME]: 'records-ui-frontend'
+	[ATTR_SERVICE_NAME]: 'records-ui-frontend',
+    'service.version': 1,
+    'deployment.environment': 'dev'
+    
 });
 
 // Configure the OTLP exporter to talk to the collector via nginx
@@ -74,6 +77,7 @@ export class ClientTelemetry {
 	public static getInstance(): ClientTelemetry {
 		if (!ClientTelemetry.instance) {
 			ClientTelemetry.instance = new ClientTelemetry();
+            ClientTelemetry.instance.start();
 		}
 		return ClientTelemetry.instance;
 	}
