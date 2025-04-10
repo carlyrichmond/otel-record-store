@@ -54,6 +54,7 @@ export class Telemetry {
     public static getInstance(): Telemetry {
         if (!Telemetry.instance) {
             Telemetry.instance = new Telemetry();
+            Telemetry.instance.start();
         }
         return Telemetry.instance;
     }

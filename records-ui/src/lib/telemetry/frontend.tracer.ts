@@ -26,32 +26,36 @@ import { ConsoleSpanExporter, SimpleSpanProcessor } from '@opentelemetry/sdk-tra
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
 
 // These help with logging, diagnostics, and traces
-import { diag, DiagConsoleLogger, DiagLogLevel, trace } from '@opentelemetry/api';
+import { diag, DiagConsoleLogger, DiagLogLevel, trace, context } from '@opentelemetry/api';
 
 // Defines a Resource to include metadata like service.name, required by Elastic
-import { resourceFromAttributes } from '@opentelemetry/resources';
+import { resourceFromAttributes, detectResources } from '@opentelemetry/resources';
+
+// Experimental detector for browser environment
+import { browserDetector } from '@opentelemetry/opentelemetry-browser-detector';
 
 // Provides standard semantic keys for attributes, like service.name
 import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
+
 import { TRACE_URL } from './constants';
 
 // Enable OpenTelemetry debug logging to the console
 diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
 
 // Define resource metadata for the service, used by exporters (Elastic requires service.name)
-const SERVICE_NAME = 'records-ui-frontend';
-const resource = resourceFromAttributes({
+const SERVICE_NAME = 'records-ui-web';
+
+const detectedResources = detectResources({ detectors: [browserDetector] });
+let resource = resourceFromAttributes({
 	[ATTR_SERVICE_NAME]: SERVICE_NAME,
-    'service.version': 1,
-    'deployment.environment': 'dev'
+	'service.version': 1,
+	'deployment.environment': 'dev'
 });
+resource = resource.merge(detectedResources);
 
 // Configure the OTLP exporter to talk to the collector via nginx
 const exporter = new OTLPTraceExporter({
 	url: TRACE_URL // nginx proxy
-	/*fetchOptions: {
-    //credentials: 'include', // needed for cookies/CORS handling if relevant
-  },*/
 });
 
 // Instantiate the trace provider and inject the resource
@@ -78,7 +82,7 @@ export class ClientTelemetry {
 	public static getInstance(): ClientTelemetry {
 		if (!ClientTelemetry.instance) {
 			ClientTelemetry.instance = new ClientTelemetry();
-            ClientTelemetry.instance.start();
+			ClientTelemetry.instance.start();
 		}
 		return ClientTelemetry.instance;
 	}
