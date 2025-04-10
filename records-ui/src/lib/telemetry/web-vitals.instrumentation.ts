@@ -39,9 +39,6 @@ export class WebVitalsInstrumentation extends InstrumentationBase {
 	}
 
 	enable() {
-		/*if (!this.isEnabled()) {
-			return;
-		}*/
 
 		// Create parent span
 		const parentSpan = trace.getTracer('web-vitals-instrumentation').startSpan('web-vitals');
@@ -51,16 +48,19 @@ export class WebVitalsInstrumentation extends InstrumentationBase {
 		// Capture Interaction to Next Paint
 		onINP((metric) => {
 			this.onReport(metric, ctx);
-		});
+		},
+		{ reportAllChanges: true });
 
 		// Capture Cumulative Layout Shift
 		onCLS((metric) => {
 			this.onReport(metric, ctx);
-		});
+		},
+		{ reportAllChanges: true });
 
 		// Capture Largest Contentful Paint
 		onLCP((metric) => {
 			this.onReport(metric, ctx);
-		});
+		},
+		{ reportAllChanges: true });
 	}
 }
