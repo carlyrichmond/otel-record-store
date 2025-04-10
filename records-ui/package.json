@@ -57,9 +57,11 @@
 		"@opentelemetry/instrumentation-document-load": "^0.45.0",
 		"@opentelemetry/instrumentation-user-interaction": "^0.45.0",
 		"@opentelemetry/resources": "^2.0.0",
+		"@opentelemetry/sdk-metrics": "^2.0.0",
 		"@opentelemetry/sdk-node": "^0.200.0",
 		"@opentelemetry/sdk-trace-base": "^2.0.0",
 		"@opentelemetry/sdk-trace-web": "^2.0.0",
+		"@opentelemetry/semantic-conventions": "^1.31.0",
 		"@sveltejs/adapter-node": "^5.2.12",
 		"web-vitals": "^4.2.4"
 	}

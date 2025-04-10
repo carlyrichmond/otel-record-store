@@ -33,21 +33,22 @@ import { resourceFromAttributes } from '@opentelemetry/resources';
 
 // Provides standard semantic keys for attributes, like service.name
 import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
+import { TRACE_URL } from './constants';
 
 // Enable OpenTelemetry debug logging to the console
 diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
 
 // Define resource metadata for the service, used by exporters (Elastic requires service.name)
+const SERVICE_NAME = 'records-ui-frontend';
 const resource = resourceFromAttributes({
-	[ATTR_SERVICE_NAME]: 'records-ui-frontend',
+	[ATTR_SERVICE_NAME]: SERVICE_NAME,
     'service.version': 1,
     'deployment.environment': 'dev'
-    
 });
 
 // Configure the OTLP exporter to talk to the collector via nginx
 const exporter = new OTLPTraceExporter({
-	url: 'http://localhost:8123/v1/traces' // nginx proxy
+	url: TRACE_URL // nginx proxy
 	/*fetchOptions: {
     //credentials: 'include', // needed for cookies/CORS handling if relevant
   },*/
