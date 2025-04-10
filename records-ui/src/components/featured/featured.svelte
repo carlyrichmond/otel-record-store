@@ -3,10 +3,11 @@
 
 	import RecordCard from '../record-card/record-card.svelte';
 	import type { Record } from '../record-card/record.model';
+	import { onMount } from 'svelte';
 
 	let records: Record[] = [];
 
-	async function getFeatured() {
+	onMount(async () => {
 		try {
 			const response = await fetch(`http://localhost:8080/records/featured`);
 			records = await response.json();
@@ -14,9 +15,7 @@
 			console.error(e);
 			return [];
 		}
-	}
-
-	getFeatured();
+	});
 </script>
 
 <div class="container">
