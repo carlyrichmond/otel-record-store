@@ -8,6 +8,11 @@ import { trace, context, type Context } from '@opentelemetry/api';
 import { hrTime } from '@opentelemetry/core';
 
 export class WebVitalsInstrumentation extends InstrumentationBase {
+
+	constructor(config = {}) {
+        super('WebVitalsInstrumentation', '1.0', config)
+    }
+
 	protected init(): InstrumentationModuleDefinition | InstrumentationModuleDefinition[] | void {}
 
 	onReport(metric: LCPMetric | CLSMetric | INPMetric, parentSpanContext: Context | undefined) {
@@ -34,9 +39,9 @@ export class WebVitalsInstrumentation extends InstrumentationBase {
 	}
 
 	enable() {
-		if (!this.isEnabled()) {
+		/*if (!this.isEnabled()) {
 			return;
-		}
+		}*/
 
 		// Create parent span
 		const parentSpan = trace.getTracer('web-vitals-instrumentation').startSpan('web-vitals');

@@ -26,7 +26,7 @@ import { ConsoleSpanExporter, SimpleSpanProcessor } from '@opentelemetry/sdk-tra
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
 
 // These help with logging, diagnostics, and traces
-import { diag, DiagConsoleLogger, DiagLogLevel, trace, context } from '@opentelemetry/api';
+import { diag, DiagConsoleLogger, DiagLogLevel } from '@opentelemetry/api';
 
 // Defines a Resource to include metadata like service.name, required by Elastic
 import { resourceFromAttributes, detectResources } from '@opentelemetry/resources';
@@ -38,6 +38,7 @@ import { browserDetector } from '@opentelemetry/opentelemetry-browser-detector';
 import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
 
 import { TRACE_URL } from './constants';
+import { WebVitalsInstrumentation } from './web-vitals.instrumentation';
 
 // Enable OpenTelemetry debug logging to the console
 diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
@@ -95,14 +96,20 @@ export class ClientTelemetry {
 					// Automatically tracks when the document loads
 					new DocumentLoadInstrumentation(),
 					getWebAutoInstrumentations({
-						// load custom configuration for xml-http-request instrumentation
-						'@opentelemetry/instrumentation-xml-http-request': {
-							clearTimingResources: true
-						}
-					}),
+                        '@opentelemetry/instrumentation-fetch': {
+                          propagateTraceHeaderCorsUrls: /.*/,
+                          clearTimingResources: true,
+                          applyCustomAttributesOnSpan(span) {
+                            span.setAttribute('app.synthetic_request', 'false');
+                          },
+                        },
+                      }),
+                    // User events
 					new UserInteractionInstrumentation({
 						eventNames: ['click'] // instrument click events only
-					})
+					}),
+                    // Custom Web Vitals instrumentation
+                    new WebVitalsInstrumentation()
 				]
 			});
 			console.log('Client Telemetry Initialised');
