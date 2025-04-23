@@ -6,23 +6,23 @@ x-default-logging: &logging
     tag: "{{.Name}}"
 
 services:
-  # records-ui:
-  #   image: records-ui:latest
-  #   container_name: records-ui
-  #   build:
-  #     context: ./records-ui
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - 4173:4173
-  #   deploy:
-  #     resources:
-  #       limits:
-  #         memory: 250M
-  #   restart: unless-stopped
-  #   environment:
-  #     - FRONTEND_ADDR
-  #     - NODE_ENV=production
-  #   logging: *logging
+  records-ui:
+    image: records-ui:latest
+    container_name: records-ui
+    build:
+      context: ./records-ui
+      dockerfile: Dockerfile
+    ports:
+      - 4173:4173
+    deploy:
+      resources:
+        limits:
+          memory: 250M
+    restart: unless-stopped
+    environment:
+      - FRONTEND_ADDR
+      - NODE_ENV=production
+    logging: *logging
 
   records-service:
     image: records-service:latest
