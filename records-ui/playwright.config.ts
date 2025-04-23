@@ -12,7 +12,7 @@ export default defineConfig({
 				...devices['Desktop Chrome']
 			}
 		},
-		/*{
+		{
 			name: 'Desktop Safari',
 			use: {
 				...devices['Desktop Safari']
@@ -53,7 +53,7 @@ export default defineConfig({
 			use: {
 				...devices['iPad Pro 11 landscape']
 			}
-		}*/
+		}
 	],
 	testDir: 'e2e'
 });
