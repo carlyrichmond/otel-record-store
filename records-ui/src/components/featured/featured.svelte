@@ -30,5 +30,5 @@
 		{/each}
 	</div>
 
-	<a class="records-btn" href="/records">Browse our selection today!</a>
+	<a data-testid="browse-records-btn" class="records-btn" href="/records">Browse our selection today!</a>
 </div>

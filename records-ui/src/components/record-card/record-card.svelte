@@ -2,11 +2,6 @@
 	import Format from './formats/format.svelte';
     import './record-card.css';
 
-
-    /*import vinyl from '$lib/assets/vinyl-format.png';
-    import cd from '$lib/assets/cd.svg';
-    import file from '$lib/assets/file.png';*/
-
     import type { Record } from './record.model';
     
     export let record: Record;
