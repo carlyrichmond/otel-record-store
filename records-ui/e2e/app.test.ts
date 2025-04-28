@@ -13,7 +13,7 @@ test('assert featured records are shown', async ({ page }) => {
 	expect(await cards.count()).toEqual(5);	
   });
 
-  test.skip('assert navigate to records page', async ({ page }) => {
+  test.only('assert navigate to records page', async ({ page }) => {
 	await page.goto('/');
   
 	const browseBtn = await page.getByTestId('browse-records-btn');
