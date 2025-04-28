@@ -1,4 +1,4 @@
-/* OpenTelemetry Front-End packages */
+/* OpenTelemetry Frontend packages */
 
 // Import the WebTracerProvider, which is the core provider for browser-based tracing
 import { WebTracerProvider } from '@opentelemetry/sdk-trace-web';
@@ -37,6 +37,11 @@ import { browserDetector } from '@opentelemetry/opentelemetry-browser-detector';
 // Provides standard semantic keys for attributes, like service.name
 import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
 
+// Context Propagation across signals
+import { CompositePropagator, W3CBaggagePropagator, W3CTraceContextPropagator } from '@opentelemetry/core';
+
+/* Custom dependencies */
+
 import { TRACE_URL } from './constants';
 import { WebVitalsInstrumentation } from './web-vitals.instrumentation';
 
@@ -69,9 +74,12 @@ const provider = new WebTracerProvider({
 	]
 });
 
-// Register the provider and set up the async context manager for spans
+// Register the provider with propagation and set up the async context manager for spans
 provider.register({
-	contextManager: new ZoneContextManager()
+	contextManager: new ZoneContextManager(),
+	propagator: new CompositePropagator({
+		propagators: [new W3CBaggagePropagator(), new W3CTraceContextPropagator()],
+	  })
 });
 
 export class ClientTelemetry {
@@ -80,6 +88,7 @@ export class ClientTelemetry {
 
 	private constructor() {}
 
+	// Obtain singleton instance of provider
 	public static getInstance(): ClientTelemetry {
 		if (!ClientTelemetry.instance) {
 			ClientTelemetry.instance = new ClientTelemetry();
@@ -88,6 +97,7 @@ export class ClientTelemetry {
 		return ClientTelemetry.instance;
 	}
 
+	// Initializer
 	public start() {
 		if (!this.initialized) {
 			// Enable automatic span generation for document load and user click interactions
