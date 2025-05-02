@@ -3,6 +3,7 @@
 
     function onSubscribeClick() {
         alert('Thank you for subscribing!');
+        throw new Error('Something bad is happening!');
     }
 </script>
 

@@ -2,7 +2,7 @@
     import Featured from '../components/featured/featured.svelte';
 
     // RUM Initialisation
-    import { init as initApm } from '@elastic/apm-rum'
+    import { init as initApm } from '@elastic/apm-rum';
     
     const apm = initApm({
         serviceName: 'rum-records-ui',
