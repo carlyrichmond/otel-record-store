@@ -1,4 +1,5 @@
-// Web Vitals Frontend package
+/* Web Vitals Frontend package
+ example based on https://www.honeycomb.io/blog/core-web-vitals-opentelemetry */
 
 import { onLCP, onINP, onCLS, type CLSMetric, type LCPMetric, 
   type INPMetric } from 'web-vitals';
