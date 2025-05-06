@@ -84,6 +84,18 @@ USER appuser
 COPY src/main/resources/otel/elastic-otel-javaagent-1.2.1.jar ./
 ENV JAVA_TOOL_OPTIONS="-javaagent:./elastic-otel-javaagent-1.2.1.jar"
 
+# Example OTEL ENV variables
+# ENV OTEL_RESOURCE_ATTRIBUTES=service.version=1,deployment.environment=dev
+# ENV OTEL_SERVICE_NAME=record-store-server-java
+# ENV OTEL_EXPORTER_OTLP_ENDPOINT=https://my-elastic-endpoint:443
+# ENV OTEL_EXPORTER_OTLP_HEADERS="Authorization=ApiKey my-api-key"
+# ENV OTEL_TRACES_EXPORTER=otlp
+# ENV OTEL_METRICS_EXPORTER=otlp
+# ENV OTEL_LOGS_EXPORTER=otlp
+
+# Inferred spans
+# OTEL_INFERRED_SPANS_ENABLED=true
+
 # Copy the executable from the "package" stage.
 COPY --from=extract build/target/extracted/dependencies/ ./
 COPY --from=extract build/target/extracted/spring-boot-loader/ ./
