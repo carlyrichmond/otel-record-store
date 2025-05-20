@@ -109,9 +109,6 @@ export class ClientTelemetry {
                         '@opentelemetry/instrumentation-fetch': {
                           propagateTraceHeaderCorsUrls: /.*/,
                           clearTimingResources: true,
-                          applyCustomAttributesOnSpan(span) {
-                            span.setAttribute('app.synthetic_request', 'false');
-                          },
                         },
                       }),
                     // User events
