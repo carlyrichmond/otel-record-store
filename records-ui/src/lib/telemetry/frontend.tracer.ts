@@ -25,6 +25,11 @@ import { ConsoleSpanExporter, SimpleSpanProcessor } from '@opentelemetry/sdk-tra
 // Import the OTLP HTTP exporter for sending traces to the collector over HTTP
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
 
+/* Packages for handling logs */
+import { logs, SeverityNumber } from '@opentelemetry/api-logs';
+import { BatchLogRecordProcessor, LoggerProvider } from '@opentelemetry/sdk-logs';
+import { OTLPLogExporter } from '@opentelemetry/exporter-logs-otlp-http';
+
 // These help with logging, diagnostics, and traces
 import { diag, DiagConsoleLogger, DiagLogLevel } from '@opentelemetry/api';
 
@@ -38,11 +43,15 @@ import { browserDetector } from '@opentelemetry/opentelemetry-browser-detector';
 import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
 
 // Context Propagation across signals
-import { CompositePropagator, W3CBaggagePropagator, W3CTraceContextPropagator } from '@opentelemetry/core';
+import {
+	CompositePropagator,
+	W3CBaggagePropagator,
+	W3CTraceContextPropagator
+} from '@opentelemetry/core';
 
 /* Custom dependencies */
 
-import { TRACE_URL } from './constants';
+import { LOGS_URL, TRACE_URL } from './constants';
 import { WebVitalsInstrumentation } from './web-vitals.instrumentation';
 
 // Enable OpenTelemetry debug logging to the console
@@ -58,6 +67,25 @@ let resource = resourceFromAttributes({
 	'deployment.environment': 'dev'
 });
 resource = resource.merge(detectedResources);
+
+// Configure logging to send to the collector via nginx
+const logExporter = new OTLPLogExporter({
+	url: LOGS_URL
+});
+
+const loggerProvider = new LoggerProvider({
+	resource: resource,
+	processors: [new BatchLogRecordProcessor(logExporter)]
+});
+
+logs.setGlobalLoggerProvider(loggerProvider);
+
+const logger = logs.getLogger('default', '1.0.0');
+logger.emit({
+	severityNumber: SeverityNumber.INFO,
+	severityText: 'INFO',
+	body: 'Logger initialized'
+});
 
 // Configure the OTLP exporter to talk to the collector via nginx
 const exporter = new OTLPTraceExporter({
@@ -78,8 +106,8 @@ const provider = new WebTracerProvider({
 provider.register({
 	contextManager: new ZoneContextManager(),
 	propagator: new CompositePropagator({
-		propagators: [new W3CBaggagePropagator(), new W3CTraceContextPropagator()],
-	  })
+		propagators: [new W3CBaggagePropagator(), new W3CTraceContextPropagator()]
+	})
 });
 
 export class ClientTelemetry {
@@ -106,20 +134,25 @@ export class ClientTelemetry {
 					// Automatically tracks when the document loads
 					new DocumentLoadInstrumentation(),
 					getWebAutoInstrumentations({
-                        '@opentelemetry/instrumentation-fetch': {
-                          propagateTraceHeaderCorsUrls: /.*/,
-                          clearTimingResources: true,
-                        },
-                      }),
-                    // User events
+						'@opentelemetry/instrumentation-fetch': {
+							propagateTraceHeaderCorsUrls: /.*/,
+							clearTimingResources: true
+						}
+					}),
+					// User events
 					new UserInteractionInstrumentation({
 						eventNames: ['click'] // instrument click events only
 					}),
-                    // Custom Web Vitals instrumentation
-                    new WebVitalsInstrumentation()
+					// Custom Web Vitals instrumentation
+					new WebVitalsInstrumentation()
 				]
 			});
-			console.log('Client Telemetry Initialised');
+
+			logger.emit({
+				severityNumber: SeverityNumber.INFO,
+				severityText: 'INFO',
+				body: 'Client Telemetry Initialised'
+			});
 			this.initialized = true;
 		}
 	}

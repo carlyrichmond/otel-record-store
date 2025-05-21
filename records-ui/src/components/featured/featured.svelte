@@ -7,12 +7,19 @@
 
 	let records: Record[] = [];
 
+	import { logs, SeverityNumber } from '@opentelemetry/api-logs';
+	const logger = logs.getLogger('default', '1.0.0');
+
 	onMount(async () => {
 		try {
 			const response = await fetch(`http://localhost:8080/records/featured`);
 			records = await response.json();
 		} catch (e) {
-			console.error(e);
+			logger.emit({
+				severityNumber: SeverityNumber.INFO,
+				severityText: 'INFO',
+				body: 'Client Telemetry Initialised'
+			});
 			return [];
 		}
 	});

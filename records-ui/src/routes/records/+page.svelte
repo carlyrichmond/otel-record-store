@@ -8,7 +8,9 @@
 	import RecordCard from '../../components/record-card/record-card.svelte';
 	import Spinner from '../../components/spinner/spinner.svelte';
 
-	
+	import { logs, SeverityNumber } from '@opentelemetry/api-logs';
+	const logger = logs.getLogger('default', '1.0.0');
+
 	let loading: boolean = $state(false);
 
 	async function getRecords(query: string) {
@@ -20,7 +22,11 @@
 			const records = await response.json();
 			data = { records: records };
 		} catch (e) {
-			console.error(e);
+			logger.emit({
+				severityNumber: SeverityNumber.ERROR,
+				severityText: 'ERROR',
+				body: { text: JSON.stringify(e) }
+			});
 			data = { error: '⚠️ Unable to obtain records' };
 		} finally {
 			loading = false;
@@ -29,10 +35,10 @@
 </script>
 
 <div class="container">
-	<SearchBar getRecords={getRecords} />
+	<SearchBar {getRecords} />
 
 	{#if loading}
-		<Spinner/>
+		<Spinner />
 	{/if}
 
 	<div class="cards-container">
@@ -41,7 +47,7 @@
 		{/if}
 
 		{#each data.records as record}
-			<RecordCard record={record}/>
+			<RecordCard {record} />
 		{/each}
 	</div>
 </div>

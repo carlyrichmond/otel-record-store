@@ -10,7 +10,7 @@ connectors:
     table:
       - context: request
         condition: request["X-Tenant"] == "debug"
-        pipelines: [logs/other]
+        pipelines: [traces/other]
 
 exporters:
   otlp/elastic:
@@ -26,6 +26,9 @@ service:
     traces:
       receivers: [otlp]
       exporters: [otlp/elastic] 
-    logs/other:
+    traces/other:
       receivers: [otlp]
       exporters: [debug] 
+    logs:
+      receivers: [otlp]
+      exporters: [otlp/elastic] 
