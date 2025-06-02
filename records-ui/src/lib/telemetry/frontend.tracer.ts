@@ -20,7 +20,7 @@ import { ZoneContextManager } from '@opentelemetry/context-zone';
 
 /* Packages for exporting traces */
 // SimpleSpanProcessor immediately forwards completed spans to the exporter
-import { ConsoleSpanExporter, SimpleSpanProcessor } from '@opentelemetry/sdk-trace-base';
+import { ConsoleSpanExporter, BatchSpanProcessor } from '@opentelemetry/sdk-trace-base';
 
 // Import the OTLP HTTP exporter for sending traces to the collector over HTTP
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
@@ -97,8 +97,8 @@ const provider = new WebTracerProvider({
 	resource: resource,
 	spanProcessors: [
 		// Send each completed span through the exporter
-		new SimpleSpanProcessor(exporter),
-		new SimpleSpanProcessor(new ConsoleSpanExporter())
+		new BatchSpanProcessor(exporter),
+		new BatchSpanProcessor(new ConsoleSpanExporter())
 	]
 });
 
