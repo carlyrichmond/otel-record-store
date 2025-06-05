@@ -17,6 +17,10 @@ exporters:
     endpoint: ${ELASTIC_ENDPOINT}
     headers:
       Authorization: "ApiKey ${ELASTIC_API_KEY}"
+  otlp/elastic-cloud:
+    endpoint: ${SYNTHETICS_DEPLOYMENT}
+    headers:
+      Authorization: "ApiKey ${SYNTHETICS_API_KEY}"
 
   debug:
     verbosity: detailed
@@ -25,10 +29,10 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      exporters: [otlp/elastic] 
+      exporters: [otlp/elastic, otlp/elastic-cloud] 
     traces/other:
       receivers: [otlp]
       exporters: [debug] 
     logs:
       receivers: [otlp]
-      exporters: [otlp/elastic] 
+      exporters: [otlp/elastic, otlp/elastic-cloud] 

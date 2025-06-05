@@ -81,9 +81,6 @@ RUN adduser \
     appuser
 USER appuser
 
-COPY src/main/resources/otel/elastic-otel-javaagent-1.2.1.jar ./
-ENV JAVA_TOOL_OPTIONS="-javaagent:./elastic-otel-javaagent-1.2.1.jar"
-
 # Example OTEL ENV variables
 # ENV OTEL_RESOURCE_ATTRIBUTES=service.version=1,deployment.environment=dev
 # ENV OTEL_SERVICE_NAME=record-store-server-java
@@ -95,6 +92,9 @@ ENV JAVA_TOOL_OPTIONS="-javaagent:./elastic-otel-javaagent-1.2.1.jar"
 
 # Inferred spans
 # OTEL_INFERRED_SPANS_ENABLED=true
+
+COPY src/main/resources/otel/elastic-otel-javaagent-1.2.1.jar ./
+ENV JAVA_TOOL_OPTIONS="-javaagent:./elastic-otel-javaagent-1.2.1.jar"
 
 # Copy the executable from the "package" stage.
 COPY --from=extract build/target/extracted/dependencies/ ./
