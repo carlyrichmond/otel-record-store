@@ -13,27 +13,9 @@ export default defineConfig({
 			}
 		},
 		{
-			name: 'Desktop Safari',
-			use: {
-				...devices['Desktop Safari']
-			}
-		},
-		{
 			name: 'Desktop Edge',
 			use: {
 				...devices['Desktop Edge']
-			}
-		},
-		{
-			name: 'Desktop Firefox',
-			use: {
-				...devices['Desktop Firefox']
-			}
-		},
-		{
-			name: 'Mobile Safari',
-			use: {
-				...devices['iPhone 13']
 			}
 		},
 		{
