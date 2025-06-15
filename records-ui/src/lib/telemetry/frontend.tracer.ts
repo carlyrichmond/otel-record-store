@@ -132,16 +132,22 @@ export class ClientTelemetry {
 			registerInstrumentations({
 				instrumentations: [
 					// Automatically tracks when the document loads
-					new DocumentLoadInstrumentation(),
+					new DocumentLoadInstrumentation({
+						ignoreNetworkEvents: false,
+						ignorePerformancePaintEvents: false
+					}),
 					getWebAutoInstrumentations({
 						'@opentelemetry/instrumentation-fetch': {
 							propagateTraceHeaderCorsUrls: /.*/,
 							clearTimingResources: true
+						},
+						'@opentelemetry/instrumentation-xml-http-request': {
+							propagateTraceHeaderCorsUrls: /.*/
 						}
 					}),
 					// User events
 					new UserInteractionInstrumentation({
-						eventNames: ['click'] // instrument click events only
+						eventNames: ['click', 'input'] // instrument click events only
 					}),
 					// Custom Web Vitals instrumentation
 					new WebVitalsInstrumentation()

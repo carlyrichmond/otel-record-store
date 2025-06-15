@@ -11,7 +11,6 @@
         serviceVersion: '1.0.0',
         environment: 'dev'
 });
-    
 
 </script>
 
