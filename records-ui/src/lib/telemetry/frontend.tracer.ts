@@ -70,7 +70,7 @@ resource = resource.merge(detectedResources);
 
 // Configure logging to send to the collector via nginx
 const logExporter = new OTLPLogExporter({
-	url: LOGS_URL
+	url: LOGS_URL // nginx proxy
 });
 
 const loggerProvider = new LoggerProvider({
