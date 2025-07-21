@@ -150,7 +150,7 @@ export class ClientTelemetry {
 						eventNames: ['click', 'input'] // instrument click events only
 					}),
 					// Custom Web Vitals instrumentation
-					new WebVitalsInstrumentation()
+					new WebVitalsInstrumentation({}, resource)
 				]
 			});
 

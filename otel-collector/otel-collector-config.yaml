@@ -36,3 +36,6 @@ service:
     logs:
       receivers: [otlp]
       exporters: [otlp/elastic, otlp/elastic-cloud] 
+    metrics:
+      receivers: [otlp]
+      exporters: [otlp/elastic, otlp/elastic-cloud] 
