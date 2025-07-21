@@ -21,6 +21,22 @@ docker-compose build
 docker-compose up
 ```
 
+To start the UI and generate sample telemetry data using the Playwright E2E tests, run the following command:
+
+```zsh
+cd records-ui
+npm install
+npm run generate
+```
+
+If you would like to generate your own events manually, simply run the `npm run dev` command to start the application locally on `http://localhost:4173`:
+
+```zsh
+cd records-ui
+npm install
+npm run generate
+```
+
 # Attributions
 
 1. Vinyl icon created by [Freepik](https://www.flaticon.com/free-icons/vinyl) on Flaticon.
