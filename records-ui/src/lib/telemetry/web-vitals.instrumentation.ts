@@ -12,7 +12,7 @@ import {
 	type InstrumentationModuleDefinition
 } from '@opentelemetry/instrumentation';
 
-// Tracing API
+// Metrics API
 import {
 	metrics,
 	type ObservableGauge,
@@ -66,10 +66,11 @@ export class WebVitalsInstrumentation extends InstrumentationBase {
 
 	protected init(): InstrumentationModuleDefinition | InstrumentationModuleDefinition[] | void {}
 
+	// Creating Meter Provider factory to send metrics via OTLP
 	private generateMeterForResource(resource: Resource) {
 		const metricReader = new PeriodicExportingMetricReader({
 			exporter: new OTLPMetricExporter({
-				url: METRICS_URL
+				url: METRICS_URL //nginx proxy
 			}),
 			// Default is 60000ms (60 seconds).
 			// Set to 10 seconds for demo purposes only.

@@ -19,7 +19,8 @@ import { getWebAutoInstrumentations } from '@opentelemetry/auto-instrumentations
 import { ZoneContextManager } from '@opentelemetry/context-zone';
 
 /* Packages for exporting traces */
-// SimpleSpanProcessor immediately forwards completed spans to the exporter
+
+// BatchSpanProcessor forwards spans to the exporter in batches to prevent flooding
 import { ConsoleSpanExporter, BatchSpanProcessor } from '@opentelemetry/sdk-trace-base';
 
 // Import the OTLP HTTP exporter for sending traces to the collector over HTTP
@@ -147,7 +148,7 @@ export class ClientTelemetry {
 					}),
 					// User events
 					new UserInteractionInstrumentation({
-						eventNames: ['click', 'input'] // instrument click events only
+						eventNames: ['click', 'input'] // instrument click and input events only
 					}),
 					// Custom Web Vitals instrumentation
 					new WebVitalsInstrumentation({}, resource)
