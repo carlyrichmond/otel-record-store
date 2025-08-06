@@ -1,6 +1,6 @@
 # otel-record-store
 
-Example Web Application Using OTel &amp; Synthetic Monitoring
+Example Web Application Using OTel
 
 # Local Setup
 
@@ -19,6 +19,12 @@ npm install
 ```zsh
 docker-compose build
 docker-compose up
+```
+
+To generate sample data [Playwright](https://playwright.dev/) is also required:
+
+```zsh
+npx playwright install
 ```
 
 To start the UI and generate sample telemetry data using the Playwright E2E tests, run the following command:
