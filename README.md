@@ -4,6 +4,8 @@ Example Web Application Using OTel Web Instrumentation for the browser:
 
 ![Architecture](./screenshots/otel-frontend-sample-architecture.png)
 
+Featured in [Web Frontend Instrumentation and Monitoring with OpenTelemetry and Elastic](https://www.elastic.co/observability-labs/blog/web-frontend-instrumentation-with-opentelemetry).
+
 ## Local Setup
 
 ```zsh
