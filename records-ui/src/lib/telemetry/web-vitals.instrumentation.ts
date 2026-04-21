@@ -48,11 +48,8 @@ export class WebVitalsInstrumentation extends InstrumentationBase {
 	private ttfb: ObservableGauge;
 	private fcp: ObservableGauge;
 
-	constructor(config: InstrumentationConfig, resource: Resource) {
+	constructor(config: InstrumentationConfig) {
 		super('WebVitalsInstrumentation', '1.0', config);
-
-		const myServiceMeterProvider = this.generateMeterForResource(resource);
-		metrics.setGlobalMeterProvider(myServiceMeterProvider);
 
 		this.cwvMeter = metrics.getMeter('core-web-vitals', '1.0.0');
 
@@ -65,24 +62,6 @@ export class WebVitalsInstrumentation extends InstrumentationBase {
 	}
 
 	protected init(): InstrumentationModuleDefinition | InstrumentationModuleDefinition[] | void {}
-
-	// Creating Meter Provider factory to send metrics via OTLP
-	private generateMeterForResource(resource: Resource) {
-		const metricReader = new PeriodicExportingMetricReader({
-			exporter: new OTLPMetricExporter({
-				url: METRICS_URL //nginx proxy
-			}),
-			// Default is 60000ms (60 seconds).
-			// Set to 10 seconds for demo purposes only.
-			exportIntervalMillis: 10000
-		});
-
-		return new MeterProvider({
-			resource: resource,
-			readers: [metricReader]
-		});
-	}
-
 	enable() {
 		// Capture Largest Contentful Paint
 		onLCP(

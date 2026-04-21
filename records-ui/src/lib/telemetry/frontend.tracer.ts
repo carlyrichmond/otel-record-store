@@ -32,7 +32,7 @@ import { BatchLogRecordProcessor, LoggerProvider } from '@opentelemetry/sdk-logs
 import { OTLPLogExporter } from '@opentelemetry/exporter-logs-otlp-http';
 
 // These help with logging, diagnostics, and traces
-import { diag, DiagConsoleLogger, DiagLogLevel } from '@opentelemetry/api';
+import { diag, DiagConsoleLogger, DiagLogLevel, metrics } from '@opentelemetry/api';
 
 // Defines a Resource to include metadata like service.name, required by Elastic
 import { resourceFromAttributes, detectResources } from '@opentelemetry/resources';
@@ -52,8 +52,10 @@ import {
 
 /* Custom dependencies */
 
-import { LOGS_URL, TRACE_URL } from './constants';
+import { LOGS_URL, METRICS_URL, TRACE_URL } from './constants';
 import { WebVitalsInstrumentation } from './web-vitals.instrumentation';
+import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-http';
+import { PeriodicExportingMetricReader, MeterProvider } from '@opentelemetry/sdk-metrics';
 
 // Enable OpenTelemetry debug logging to the console
 diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
@@ -87,6 +89,23 @@ logger.emit({
 	severityText: 'INFO',
 	body: 'Logger initialized'
 });
+
+// Metrics configuration and provider
+const metricReader = new PeriodicExportingMetricReader({
+	exporter: new OTLPMetricExporter({
+		url: METRICS_URL //nginx proxy
+	}),
+	// Default is 60000ms (60 seconds).
+	// Set to 10 seconds for demo purposes only.
+	exportIntervalMillis: 10000
+});
+
+const meterProvider = new MeterProvider({
+	resource: resource,
+	readers: [metricReader]
+});
+
+metrics.setGlobalMeterProvider(meterProvider);
 
 // Configure the OTLP exporter to talk to the collector via nginx
 const exporter = new OTLPTraceExporter({
@@ -151,7 +170,7 @@ export class ClientTelemetry {
 						eventNames: ['click', 'input'] // instrument click and input events only
 					}),
 					// Custom Web Vitals instrumentation
-					new WebVitalsInstrumentation({}, resource)
+					new WebVitalsInstrumentation({})
 				]
 			});
 
