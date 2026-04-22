@@ -31,6 +31,10 @@ import { logs, SeverityNumber } from '@opentelemetry/api-logs';
 import { BatchLogRecordProcessor, LoggerProvider } from '@opentelemetry/sdk-logs';
 import { OTLPLogExporter } from '@opentelemetry/exporter-logs-otlp-http';
 
+// Metrics instrumentation packages
+import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-http';
+import { PeriodicExportingMetricReader, MeterProvider } from '@opentelemetry/sdk-metrics';
+
 // These help with logging, diagnostics, and traces
 import { diag, DiagConsoleLogger, DiagLogLevel, metrics } from '@opentelemetry/api';
 
@@ -54,8 +58,7 @@ import {
 
 import { LOGS_URL, METRICS_URL, TRACE_URL } from './constants';
 import { WebVitalsInstrumentation } from './web-vitals.instrumentation';
-import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-http';
-import { PeriodicExportingMetricReader, MeterProvider } from '@opentelemetry/sdk-metrics';
+import { SubscriptionsCounterInstrumentation } from './subscriptions.counter.instrumentation';
 
 // Enable OpenTelemetry debug logging to the console
 diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
@@ -134,6 +137,8 @@ export class ClientTelemetry {
 	private static instance: ClientTelemetry;
 	private initialized = false;
 
+	public newsletterSubscriptionInstrumentation = new SubscriptionsCounterInstrumentation({});
+
 	private constructor() {}
 
 	// Obtain singleton instance of provider
@@ -170,7 +175,9 @@ export class ClientTelemetry {
 						eventNames: ['click', 'input'] // instrument click and input events only
 					}),
 					// Custom Web Vitals instrumentation
-					new WebVitalsInstrumentation({})
+					new WebVitalsInstrumentation({}),
+					// Custom newsletter subscription instrumentation
+					this.newsletterSubscriptionInstrumentation
 				]
 			});
 

@@ -62,6 +62,7 @@ export class WebVitalsInstrumentation extends InstrumentationBase {
 	}
 
 	protected init(): InstrumentationModuleDefinition | InstrumentationModuleDefinition[] | void {}
+	
 	enable() {
 		// Capture Largest Contentful Paint
 		onLCP(

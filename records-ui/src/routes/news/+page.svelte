@@ -1,10 +1,12 @@
 <script lang=ts>
+	import { ClientTelemetry } from '$lib/telemetry/frontend.tracer';
     import './news.css';
 
     import { logs, SeverityNumber } from '@opentelemetry/api-logs';
     const logger = logs.getLogger('default', '1.0.0');
 
     function onSubscribeClick() {
+        ClientTelemetry.getInstance().newsletterSubscriptionInstrumentation.incrementSubscriptionsCounter();
         alert('Thank you for subscribing!');
         
         logger.emit({
