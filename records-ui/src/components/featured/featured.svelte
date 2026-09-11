@@ -4,6 +4,7 @@
 	import RecordCard from '../record-card/record-card.svelte';
 	import type { Record } from '../record-card/record.model';
 	import { onMount } from 'svelte';
+	import { resolve } from '$app/paths';
 
 	let records: Record[] = [];
 
@@ -14,7 +15,7 @@
 		try {
 			const response = await fetch(`http://localhost:8080/records/featured`);
 			records = await response.json();
-		} catch (e) {
+		} catch {
 			logger.emit({
 				severityNumber: SeverityNumber.INFO,
 				severityText: 'INFO',
@@ -32,10 +33,10 @@
 		<p data-testid="no-featured-label" class="no-featured-label">⚠️ Unable to obtain records</p>
 	{/if}
 	<div class="cards-container">
-		{#each records as record}
+		{#each records as record (record.albumId)}
 			<RecordCard {record} />
 		{/each}
 	</div>
 
-	<a data-testid="browse-records-btn" class="records-btn" href="/records">Browse our selection today!</a>
+	<a data-testid="browse-records-btn" class="records-btn" href={resolve('/records')}>Browse our selection today!</a>
 </div>

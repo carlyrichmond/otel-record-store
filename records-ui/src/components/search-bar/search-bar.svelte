@@ -5,9 +5,9 @@
     let query = '';
     export let getRecords = (_query: string) => {};
 
-    let timer: NodeJS.Timeout;
+    let timer: ReturnType<typeof setTimeout>;
 
-    const searchRecords = (event: any) => {
+    const searchRecords = () => {
 		clearTimeout(timer);
 		timer = setTimeout(() => {
 			getRecords(query);

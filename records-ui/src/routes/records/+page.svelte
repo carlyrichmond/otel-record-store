@@ -46,7 +46,7 @@
 			<p data-testid="no-records-label" class="no-records-label">{data.error}</p>
 		{/if}
 
-		{#each data.records as record}
+		{#each data.records as record (record.albumId)}
 			<RecordCard {record} />
 		{/each}
 	</div>

@@ -22,18 +22,8 @@ import {
 
 } from '@opentelemetry/api';
 
-// OpenTelemetry Metrics
-import {
-	MeterProvider,
-	PeriodicExportingMetricReader,
-} from '@opentelemetry/sdk-metrics';
-import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-http';
-import type { Resource } from '@opentelemetry/resources';
-
 // Time calculator via performance component
 import { hrTime } from '@opentelemetry/core';
-
-import { METRICS_URL } from './constants';
 
 type CWVMetric = LCPMetric | CLSMetric | INPMetric | TTFBMetric | FCPMetric;
 

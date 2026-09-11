@@ -4,8 +4,8 @@ import { render, screen } from '@testing-library/svelte';
 import Page from './+page.svelte';
 
 describe('/+page.svelte', () => {
-	test('should render h1', () => {
+	test('should render the featured heading', () => {
 		render(Page);
-		expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument();
+		expect(screen.getByRole('heading', { level: 2, name: 'Featured' })).toBeInTheDocument();
 	});
 });

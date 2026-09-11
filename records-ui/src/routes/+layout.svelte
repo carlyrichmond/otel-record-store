@@ -3,6 +3,7 @@
 	import logo from '$lib/assets/vinyl.png';
 
   import { onMount } from 'svelte';
+	import { resolve } from '$app/paths';
 	import { ClientTelemetry } from '$lib/telemetry/frontend.tracer';
 
 	let { children } = $props();
@@ -13,7 +14,7 @@
 </script>
 
 <header>
-    <a class="company-header" href="/">
+    <a class="company-header" href={resolve('/')}>
 		<img src={logo} class="logo" alt="vinyl record"/>
 		<h1 class="app-header" data-testid="company-header">
         OTel Records 
@@ -23,13 +24,13 @@
   <nav>
     <ul class="nav-bar">
       <li>
-        <a href="/records">Records</a>
+        <a href={resolve('/records')}>Records</a>
       </li>
       <li>
-        <a href="/events">Events</a>
+        <a href={resolve('/events')}>Events</a>
       </li>
       <li>
-        <a href="/news">News</a>
+        <a href={resolve('/news')}>News</a>
       </li>
     </ul>
   </nav>

@@ -20,7 +20,7 @@
                 <p class="no-formats-available-label">N/A</p>
               {/if}
               
-              {#each record.formats as format }
+              {#each record.formats as format (format)}
                 <Format width={20} height={20} recordFormat={format}/>
                 <!--<enhanced:img class="format-icon" src={formatIconMap[format]} alt={format}/> -->
               {/each}

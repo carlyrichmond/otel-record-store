@@ -1,7 +1,7 @@
 #Dockerfile
 
 # Use this image as the platform to build the app
-FROM node:20.11-alpine
+FROM node:24-alpine
 
 LABEL Developers="Carly Richmond"
 

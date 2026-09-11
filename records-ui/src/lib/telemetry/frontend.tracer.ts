@@ -81,7 +81,7 @@ const logExporter = new OTLPLogExporter({
 
 const loggerProvider = new LoggerProvider({
 	resource: resource,
-	processors: [new BatchLogRecordProcessor(logExporter)]
+	processors: [new BatchLogRecordProcessor({ exporter: logExporter })]
 });
 
 logs.setGlobalLoggerProvider(loggerProvider);

@@ -3,17 +3,31 @@ receivers:
     protocols:
       http:
         endpoint: "0.0.0.0:4318"
+        # Required for the routing connector to read request headers
+        include_metadata: true
+
+processors:
+  # memory_limiter must be the first processor in a pipeline
+  memory_limiter:
+    check_interval: 1s
+    limit_percentage: 80
+    spike_limit_percentage: 25
+
+  batch:
+    send_batch_size: 1024
+    timeout: 5s
 
 connectors:
   routing:
-    default_pipelines: [traces]
+    default_pipelines: [traces/elastic]
     table:
       - context: request
         condition: request["X-Tenant"] == "debug"
-        pipelines: [traces/other]
+        pipelines: [traces/debug]
 
 exporters:
-  otlp/elastic:
+  # "otlp" is a deprecated alias for the gRPC exporter as of collector 0.160.0
+  otlp_grpc/elastic:
     endpoint: ${ELASTIC_ENDPOINT}
     headers:
       Authorization: "ApiKey ${ELASTIC_API_KEY}"
@@ -23,15 +37,29 @@ exporters:
 
 service:
   pipelines:
+    # Ingest pipeline: all traces land here and are routed by tenant.
+    # Routing happens before batching so request metadata is still available.
     traces:
       receivers: [otlp]
-      exporters: [otlp/elastic] 
-    traces/other:
-      receivers: [otlp]
-      exporters: [debug] 
+      processors: [memory_limiter]
+      exporters: [routing]
+
+    traces/elastic:
+      receivers: [routing]
+      processors: [batch]
+      exporters: [otlp_grpc/elastic]
+
+    traces/debug:
+      receivers: [routing]
+      processors: [batch]
+      exporters: [debug]
+
     logs:
       receivers: [otlp]
-      exporters: [otlp/elastic] 
+      processors: [memory_limiter, batch]
+      exporters: [otlp_grpc/elastic]
+
     metrics:
       receivers: [otlp]
-      exporters: [otlp/elastic] 
+      processors: [memory_limiter, batch]
+      exporters: [otlp_grpc/elastic]

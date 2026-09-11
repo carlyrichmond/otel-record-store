@@ -25,8 +25,8 @@ Following the below steps will make available the OTel Record store application 
 ** Note: requires installation of [Docker](https://docs.docker.com/desktop/). **
 
 ```zsh
-docker-compose build
-docker-compose up
+docker compose build
+docker compose up
 ```
 
 To generate sample data [Playwright](https://playwright.dev/) is also required:

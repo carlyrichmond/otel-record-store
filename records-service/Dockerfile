@@ -9,7 +9,7 @@
 ################################################################################
 
 # Create a stage for resolving and downloading dependencies.
-FROM eclipse-temurin:21-jdk-jammy AS deps
+FROM eclipse-temurin:25-jdk-noble AS deps
 
 WORKDIR /build
 
@@ -52,7 +52,7 @@ FROM package AS extract
 
 WORKDIR /build
 
-RUN java -Djarmode=layertools -jar target/app.jar extract --destination target/extracted
+RUN java -Djarmode=tools -jar target/app.jar extract --layers --launcher --destination target/extracted
 
 ################################################################################
 
@@ -62,11 +62,11 @@ RUN java -Djarmode=layertools -jar target/app.jar extract --destination target/e
 # from the install stage.
 #
 # The example below uses eclipse-turmin's JRE image as the foundation for running the app.
-# By specifying the "21-jre-jammy" tag, it will also use whatever happens to be the
+# By specifying the "25-jre-noble" tag, it will also use whatever happens to be the
 # most recent version of that tag when you build your Dockerfile.
 # If reproducability is important, consider using a specific digest SHA, like
 # eclipse-temurin@sha256:99cede493dfd88720b610eb8077c8688d3cca50003d76d1d539b0efc8cca72b4.
-FROM eclipse-temurin:21-jre-jammy AS final
+FROM eclipse-temurin:25-jre-noble AS final
 
 # Create a non-privileged user that the app will run under.
 # See https://docs.docker.com/go/dockerfile-user-best-practices/
@@ -93,8 +93,9 @@ USER appuser
 # Inferred spans
 # OTEL_INFERRED_SPANS_ENABLED=true
 
-COPY src/main/resources/otel/elastic-otel-javaagent-1.2.1.jar ./
-ENV JAVA_TOOL_OPTIONS="-javaagent:./elastic-otel-javaagent-1.2.1.jar"
+ARG ELASTIC_OTEL_AGENT_VERSION=1.12.0
+ADD --chmod=0644 https://repo1.maven.org/maven2/co/elastic/otel/elastic-otel-javaagent/${ELASTIC_OTEL_AGENT_VERSION}/elastic-otel-javaagent-${ELASTIC_OTEL_AGENT_VERSION}.jar ./elastic-otel-javaagent.jar
+ENV JAVA_TOOL_OPTIONS="-javaagent:./elastic-otel-javaagent.jar"
 
 # Copy the executable from the "package" stage.
 COPY --from=extract build/target/extracted/dependencies/ ./
